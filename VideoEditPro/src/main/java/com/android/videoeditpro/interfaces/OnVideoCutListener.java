@@ -1,5 +1,5 @@
 package com.android.videoeditpro.interfaces;
 
-public interface OnK4LVideoListener {
+public interface OnVideoCutListener {
     void onVideoPrepared();
 }

@@ -23,7 +23,7 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 
-import com.android.videoeditpro.interfaces.OnK4LVideoListener;
+import com.android.videoeditpro.interfaces.OnVideoCutListener;
 import com.android.videoeditpro.interfaces.OnProgressVideoListener;
 import com.android.videoeditpro.interfaces.OnRangeSeekBarListener;
 import com.android.videoeditpro.interfaces.OnTrimVideoListener;
@@ -43,9 +43,9 @@ import java.util.List;
 import static com.android.videoeditpro.utils.TrimVideoUtils.stringForTime;
 
 
-public class K4LVideoTrimmer extends FrameLayout {
+public class VideoCutTrimmer extends FrameLayout {
 
-    private static final String TAG = K4LVideoTrimmer.class.getSimpleName();
+    private static final String TAG = VideoCutTrimmer.class.getSimpleName();
     private static final int MIN_TIME_FRAME = 1000;
     private static final int SHOW_PROGRESS = 2;
 
@@ -68,7 +68,7 @@ public class K4LVideoTrimmer extends FrameLayout {
     private List<OnProgressVideoListener> mListeners;
 
     private OnTrimVideoListener mOnTrimVideoListener;
-    private OnK4LVideoListener mOnK4LVideoListener;
+    private OnVideoCutListener mOnVideoCutListener;
 
     private int mDuration = 0;
     private int mTimeVideo = 0;
@@ -79,11 +79,11 @@ public class K4LVideoTrimmer extends FrameLayout {
     private boolean mResetSeekBar = true;
     private final MessageHandler mMessageHandler = new MessageHandler(this);
 
-    public K4LVideoTrimmer(@NonNull Context context, AttributeSet attrs) {
+    public VideoCutTrimmer(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public K4LVideoTrimmer(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
+    public VideoCutTrimmer(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -375,8 +375,8 @@ public class K4LVideoTrimmer extends FrameLayout {
         setTimeFrames();
         setTimeVideo(0);
 
-        if (mOnK4LVideoListener != null) {
-            mOnK4LVideoListener.onVideoPrepared();
+        if (mOnVideoCutListener != null) {
+            mOnVideoCutListener.onVideoPrepared();
         }
     }
 
@@ -488,8 +488,8 @@ public class K4LVideoTrimmer extends FrameLayout {
     }
 
 
-    public void setOnK4LVideoListener(OnK4LVideoListener onK4LVideoListener) {
-        mOnK4LVideoListener = onK4LVideoListener;
+    public void setOnK4LVideoListener(OnVideoCutListener onVideoCutListener) {
+        mOnVideoCutListener = onVideoCutListener;
     }
 
     public void setDestinationPath(final String finalPath) {
@@ -532,15 +532,15 @@ public class K4LVideoTrimmer extends FrameLayout {
     private static class MessageHandler extends Handler {
 
         @NonNull
-        private final WeakReference<K4LVideoTrimmer> mView;
+        private final WeakReference<VideoCutTrimmer> mView;
 
-        MessageHandler(K4LVideoTrimmer view) {
+        MessageHandler(VideoCutTrimmer view) {
             mView = new WeakReference<>(view);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            K4LVideoTrimmer view = mView.get();
+            VideoCutTrimmer view = mView.get();
             if (view == null || view.mVideoView == null) {
                 return;
             }
